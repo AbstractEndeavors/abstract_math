@@ -1,0 +1,18 @@
+{
+  "module_directory": "/home/computron/Documents/pythonTools/modules/abstract_math",
+  "module_paths": [
+    "/home/computron/Documents/pythonTools/modules/abstract_math/src/abstract_math/__init__.py",
+    "/home/computron/Documents/pythonTools/modules/abstract_math/src/abstract_math/derive_tokens.py",
+    "/home/computron/Documents/pythonTools/modules/abstract_math/src/abstract_math/safe_math.py"
+  ],
+  "imports": [
+    "",
+    "abstract_utilities",
+    "decimal",
+    "math"
+  ],
+  "meta_data": {},
+  "src/abstract_math/safe_math.py": "Description of script based on prompt: You are analyzing a Python script 'safe_math.py' l (mock response)",
+  "src/abstract_math/__init__.py": "Description of script based on prompt: You are analyzing a Python script '__init__.py' lo (mock response)",
+  "src/abstract_math/derive_tokens.py": "Description of script based on prompt: You are analyzing a Python script 'derive_tokens.p (mock response)"
+}

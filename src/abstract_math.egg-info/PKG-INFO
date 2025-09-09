@@ -1,3 +1,22 @@
+Metadata-Version: 2.4
+Name: abstract_math
+Version: 0.0.0.19
+Author: putkoff
+Author-email: partners@abstractendeavors.com
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.11
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: requires-python
+
 # abstract_math
 
 ## Description

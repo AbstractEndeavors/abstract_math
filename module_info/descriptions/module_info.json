@@ -1,0 +1,229 @@
+{
+    "module_directory": "/home/computron/Documents/pythonTools/modules/abstract_math",
+    "module_paths": [
+        "/home/computron/Documents/pythonTools/modules/abstract_math/src/abstract_math/__init__.py",
+        "/home/computron/Documents/pythonTools/modules/abstract_math/src/abstract_math/derive_tokens.py",
+        "/home/computron/Documents/pythonTools/modules/abstract_math/src/abstract_math/safe_math.py"
+    ],
+    "Imports": [
+        "",
+        "abstract_utilities",
+        "decimal",
+        "math"
+    ],
+    "meta_data": {
+        "name": "abstract_math",
+        "version": "0.0.0.14",
+        "author": "putkoff",
+        "author_email": "partners@abstractendeavors.com",
+        "description": "The abstract_math module, in its alpha version, provides facilities for complex mathematical operations and manipulation of mathematical tokens with a high precision decimal calculation feature.",
+        "long_description": "",
+        "long_description_content_type": "text/markdown",
+        "classifiers": [
+            "Development Status :: 3 - Alpha",
+            "Intended Audience :: Developers",
+            "License :: OSI Approved :: MIT License",
+            "Programming Language :: Python :: 3",
+            "Programming Language :: Python :: 3.11"
+        ],
+        "install_requires": [
+            "abstract_utilities"
+        ],
+        "package_dir": {
+            "": "src"
+        },
+        "packages": [],
+        "python_requires": ">=3.6",
+        "setup_requires": [
+            "wheel"
+        ],
+        "url": "https://github.com/AbstractEndeavors/abstract_math"
+    },
+    "info_file_path": "/home/computron/Documents/pythonTools/modules/abstract_math/module_info/descriptions/module_info.json",
+    "module_info_dir": "/home/computron/Documents/pythonTools/modules/abstract_math/module_info/descriptions",
+    "read_me_response_path": "/home/computron/Documents/pythonTools/modules/abstract_math/module_info/descriptions/read_me_response.json",
+    "partial_paths": [
+        "src/abstract_math/__init__.py",
+        "src/abstract_math/derive_tokens.py",
+        "src/abstract_math/safe_math.py"
+    ],
+    "content_synopsis": {
+        "complete_synopsis": "/home/computron/Documents/pythonTools/modules/abstract_math/module_info/descriptions/complete_synopsis.txt",
+        "src/abstract_math/__init__.py": "/home/computron/Documents/pythonTools/modules/abstract_math/module_info/descriptions/abstract_math/__init__/synopsis.txt",
+        "src/abstract_math/derive_tokens.py": "/home/computron/Documents/pythonTools/modules/abstract_math/module_info/descriptions/abstract_math/derive_tokens/synopsis.txt"
+    },
+    "src/abstract_math/__init__.py": [
+        {
+            "prompt": {
+                "model": "gpt-4",
+                "messages": [
+                    {
+                        "role": "assistant",
+                        "content": "\n-----------------------------------------------------------------------------\n#instructions#\n\nyour response is expected to be in JSON format, while any boool responses are to be lowercase with no quotations surrounding their values, with the keys as follows:\n\n0) api_response - '''Place response to prompt here.'''\n1) generate_title - '''Generate a short and concise title for this query, using underscores instead of spaces and avoiding special characters. The title should not exceed 200 characters to ensure compatibility with file systems.'''\n\nbelow is an example of the expected json dictionary response format, with the default inputs:\n{'api_response': 'This is the reply to your request.', 'generate_title': 'Short_Title_for_Query'}\n-----------------------------------------------------------------------------\n#prompt#\n\nthe data provided is __init__.py from partial path src/abstract_math/__init__.py in 📦 **abstract_math** v0.0.0.14\n👤 Author: putkoff (partners@abstractendeavors.com)\n🪪 License: Unknown License\n\n🏷️ Classifiers:\n  - Development Status :: 3 - Alpha\n  - Intended Audience :: Developers\n  - License :: OSI Approved :: MIT License\n  - Programming Language :: Python :: 3\n  - Programming Language :: Python :: 3.11\n\n here is a synopsis of the previous scripts: \n\nplease overview the script provided in the chunk_data and derive a description/summary of the script as it relates to the module; this will later be amalgamated with the various portions of the whole module descriptions to create a comprehensive readme\n\n-----------------------------------------------------------------------------\n#chunk_data#\n\nthis is chunk 1 of 1\n\nfrom .safe_math import *\nfrom .derive_tokens import *\n"
+                    }
+                ],
+                "max_tokens": 7797
+            },
+            "response": {
+                "id": "chatcmpl-BWJ54VLLJp7U7eHBRRIX9Od63jmNH",
+                "object": "chat.completion",
+                "created": 1747039542,
+                "model": "gpt-4-0613",
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {
+                            "role": "assistant",
+                            "content": {
+                                "api_response": "The provided script from __init__.py file in the abstract_math package version 0.0.0.14 imports everything from two modules: safe_math and derive_tokens. It suggests that these modules could potentially be the main components of the package. The version and the author information hint at this being an early stage development project. As indicated by the name, abstract_math, this package possibly provides a framework for handling complex mathematical operations. Details of safe_math and derive_tokens could provide more context. However, the current script does not provide details about the functionalities of these imported modules.",
+                                "generate_title": "abstract_math_v0.0.0.14_init.py_summary"
+                            },
+                            "refusal": null,
+                            "annotations": []
+                        },
+                        "logprobs": null,
+                        "finish_reason": "stop"
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": 345,
+                    "completion_tokens": 141,
+                    "total_tokens": 486,
+                    "prompt_tokens_details": {
+                        "cached_tokens": 0,
+                        "audio_tokens": 0
+                    },
+                    "completion_tokens_details": {
+                        "reasoning_tokens": 0,
+                        "audio_tokens": 0,
+                        "accepted_prediction_tokens": 0,
+                        "rejected_prediction_tokens": 0
+                    }
+                },
+                "service_tier": "default",
+                "system_fingerprint": null,
+                "file_path": "/home/computron/Documents/pythonTools/modules/response_data/raw_response/1747039542.json",
+                "title": 1747039542
+            },
+            "file_path": "/home/computron/Documents/pythonTools/modules/response_data/2025-05-12/gpt-4-0613/1747039542.json",
+            "title": 1747039542,
+            "model": "gpt-4-0613"
+        }
+    ],
+    "src/abstract_math/derive_tokens.py": [
+        {
+            "prompt": {
+                "model": "gpt-4",
+                "messages": [
+                    {
+                        "role": "assistant",
+                        "content": "\n-----------------------------------------------------------------------------\n#instructions#\n\nyour response is expected to be in JSON format, while any boool responses are to be lowercase with no quotations surrounding their values, with the keys as follows:\n\n0) api_response - '''Place response to prompt here.'''\n1) generate_title - '''Generate a short and concise title for this query, using underscores instead of spaces and avoiding special characters. The title should not exceed 200 characters to ensure compatibility with file systems.'''\n\nbelow is an example of the expected json dictionary response format, with the default inputs:\n{'api_response': 'This is the reply to your request.', 'generate_title': 'Short_Title_for_Query'}\n-----------------------------------------------------------------------------\n#prompt#\n\nthe data provided is derive_tokens.py from partial path src/abstract_math/derive_tokens.py in 📦 **abstract_math** v0.0.0.14\n👤 Author: putkoff (partners@abstractendeavors.com)\n🪪 License: Unknown License\n\n🏷️ Classifiers:\n  - Development Status :: 3 - Alpha\n  - Intended Audience :: Developers\n  - License :: OSI Approved :: MIT License\n  - Programming Language :: Python :: 3\n  - Programming Language :: Python :: 3.11\n\n here is a synopsis of the previous scripts:  in the script: src/abstract_math/__init__.py\n dubbed with the title: abstract_math_v0.0.0.14_init.py_summary\n was described as: The provided script from __init__.py file in the abstract_math package version 0.0.0.14 imports everything from two modules: safe_math and derive_tokens. It suggests that these modules could potentially be the main components of the package. The version and the author information hint at this being an early stage development project. As indicated by the name, abstract_math, this package possibly provides a framework for handling complex mathematical operations. Details of safe_math and derive_tokens could provide more context. However, the current script does not provide details about the functionalities of these imported modules.\n\n/n/n\n\nplease overview the script provided in the chunk_data and derive a description/summary of the script as it relates to the module; this will later be amalgamated with the various portions of the whole module descriptions to create a comprehensive readme\n\n-----------------------------------------------------------------------------\n#chunk_data#\n\nthis is chunk 1 of 1\n\nfrom decimal import Decimal, getcontext\nfrom .safe_math import *\ngetcontext().prec = 50  # High precision for accuracy\nSOL_DECIMAL_PLACE = 9\nSOL_LAMPORTS = sol_lamports =int(exponential(1,exp=SOL_DECIMAL_PLACE,num=1))\ndef get_proper_args(strings,*args,**kwargs):\n    properArgs = [] \n    for key in strings:\n        kwarg = kwargs.get(key)\n        if kwarg == None and args:\n            kwarg = args[0]\n            args = [] if len(args) == 1 else args[1:]\n        properArgs.append(kwarg)\n    return properArgs#lamports\ndef get_lamports(integer):\n    return exp_it(10,len(str(integer))+1,1)\ndef get_lamport_difference(lamports,virtual_lamports):\n    integer = int(virtual_lamports/lamports)\n    exp = len(str(integer))\n    return int(exponential(1,exp=exp,num=1))\n#virtual reserves\ndef get_vitual_reserves(*args,**kwargs):\n    proper_args = get_proper_args([\"virtualSolReserves\",\"virtualTokenReserves\"],*args,**kwargs)\n    return proper_args\ndef get_virtual_reserve_ratio(*args,**kwargs):\n    proper_args = get_vitual_reserves(*args,**kwargs)\n    return divide_it(*proper_args)\n#sol reserves\ndef get_virtual_sol_reservs(*args,**kwargs):\n    proper_args = get_proper_args([\"virtualSolReserves\"],*args,**kwargs)\n    return proper_args[0] if proper_args else proper_args\ndef get_virtual_sol_lamports(*args,**kwargs):\n    virtual_sol_reserves = get_virtual_sol_reservs(*args,**kwargs)\n    virtual_sol_lamports = get_lamports(virtual_sol_reserves)\n    return virtual_sol_lamports\ndef get_virtual_sol_lamp_difference(*args,**kwargs):\n    virtual_sol_lamports = get_virtual_sol_lamports(*args,**kwargs)\n    return get_lamport_difference(SOL_LAMPORTS,virtual_sol_lamports)\n#sol Amount\ndef get_sol_amount(*args,**kwargs):\n    proper_args = get_proper_args([\"solAmount\"],*args,**kwargs)\n    return proper_args[0] if proper_args else proper_args\ndef getSolAmountUi(*args,**kwargs):\n    sol_amount = get_sol_amount(*args,**kwargs)\n    return exponential(sol_amount,SOL_DECIMAL_PLACE)\n#token reserves\ndef get_virtual_token_reserves(*args,**kwargs):\n    proper_args = get_proper_args([\"virtualTokenReserves\"],*args,**kwargs)\n    return proper_args[0] if proper_args else proper_args\ndef get_virtual_token_lamports(*args,**kwargs):\n    virtual_token_reserves = get_virtual_token_reserves(*args,**kwargs)\n    virtual_token_lamports = get_lamports(virtual_token_reserves)\n    return virtual_token_lamports\n#token amount\ndef get_token_amount(*args,**kwargs):\n    proper_args = get_proper_args([\"tokenAmount\"],*args,**kwargs)\n    return proper_args[0] if proper_args else proper_args\ndef get_token_amount_ui(*args,**kwargs):\n    token_amount = get_token_amount(*args,**kwargs)\n    token_decimals = derive_decimals_from_vars(*args,**kwargs)\n    return exponential(token_amount,exp=token_decimals)\n#token derivision\ndef derive_token_decimals_from_token_variables(**variables):\n    variables[\"price\"] = get_price(**variables)\n    variables[\"tokenDecimals\"] = derive_decimals_from_vars(**variables)\n    return variables\ndef get_derived_token_ratio(*args,**kwargs):\n    derived_token_amount = derive_token_amount(*args,**kwargs)\n    token_amount = get_token_amount(*args,**kwargs)\n    ratio = divide_it(derived_token_amount,token_amount)\n    return ratio\ndef derive_token_amount(*args,**kwargs):\n    virtual_token_reserves = get_virtual_token_reserves(*args,**kwargs)\n    price = get_price(*args,**kwargs)\n    derived_token_amount = divide_it(virtual_token_reserves,price)\n    return derived_token_amount\n#derive variables\ndef get_price(*args,**kwargs):\n    reserve_ratios = get_virtual_reserve_ratio(*args,**kwargs)\n    virtual_sol_lamp_difference = get_virtual_sol_lamp_difference(*args,**kwargs)\n    return reserve_ratios/virtual_sol_lamp_difference\ndef derive_decimals_from_vars(*args,**kwargs):\n  ratio = get_derived_token_ratio(*args,**kwargs)\n  decimals = -1\n  while abs(ratio - round(ratio)) > 1e-9:\n      ratio *= 10\n      decimals += 1\n  return decimals\ndef update_token_variables(variables):\n    variables['solAmountUi'] = getSolAmountUi(**variables)\n    variables['solDecimals'] = 9\n    variables = derive_token_decimals_from_token_variables(**variables)\n    variables['tokenAmountUi'] = get_token_amount_ui(**variables)\n    return variables\n"
+                    }
+                ],
+                "max_tokens": 6511
+            },
+            "response": {
+                "id": "chatcmpl-BWJ59raGzQeb0xOhYoYTBUPjqyHYV",
+                "object": "chat.completion",
+                "created": 1747039547,
+                "model": "gpt-4-0613",
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {
+                            "role": "assistant",
+                            "content": {
+                                "api_response": "This script from derive_tokens.py in the abstract_math package seems involved in complex manipulation or derivation of mathematical tokens, referred to as \"lamports\". It imports Decimal and getcontext from decimal, and safe_math. It sets a high precision for decimal calculations which suggests it deals with complex mathematical operations that demand high accuracy. Several functions are defined to derive quantities like lamports, virtual reserves, sol reserves, sol amounts, token reserves, token amounts, derived token ratio, price, and token decimals. Sol and token variables are updated within these functions. The derive_token_decimals_from_token_variables function appears to calculate derived token amounts and ratios. Hence, the package could be used to handle complex token manipulations and calculations.",
+                                "generate_title": "abstract_math_v0.0.0.14_derive_tokens.py_summary"
+                            },
+                            "refusal": null,
+                            "annotations": []
+                        },
+                        "logprobs": null,
+                        "finish_reason": "stop"
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": 1545,
+                    "completion_tokens": 170,
+                    "total_tokens": 1715,
+                    "prompt_tokens_details": {
+                        "cached_tokens": 0,
+                        "audio_tokens": 0
+                    },
+                    "completion_tokens_details": {
+                        "reasoning_tokens": 0,
+                        "audio_tokens": 0,
+                        "accepted_prediction_tokens": 0,
+                        "rejected_prediction_tokens": 0
+                    }
+                },
+                "service_tier": "default",
+                "system_fingerprint": null,
+                "file_path": "/home/computron/Documents/pythonTools/modules/response_data/raw_response/1747039547.json",
+                "title": 1747039547
+            },
+            "file_path": "/home/computron/Documents/pythonTools/modules/response_data/2025-05-12/gpt-4-0613/1747039547.json",
+            "title": 1747039547,
+            "model": "gpt-4-0613"
+        }
+    ],
+    "src/abstract_math/safe_math.py": [
+        {
+            "prompt": {
+                "model": "gpt-4",
+                "messages": [
+                    {
+                        "role": "assistant",
+                        "content": "\n-----------------------------------------------------------------------------\n#instructions#\n\nyour response is expected to be in JSON format, while any boool responses are to be lowercase with no quotations surrounding their values, with the keys as follows:\n\n0) api_response - '''Place response to prompt here.'''\n1) generate_title - '''Generate a short and concise title for this query, using underscores instead of spaces and avoiding special characters. The title should not exceed 200 characters to ensure compatibility with file systems.'''\n\nbelow is an example of the expected json dictionary response format, with the default inputs:\n{'api_response': 'This is the reply to your request.', 'generate_title': 'Short_Title_for_Query'}\n-----------------------------------------------------------------------------\n#prompt#\n\nthe data provided is safe_math.py from partial path src/abstract_math/safe_math.py in 📦 **abstract_math** v0.0.0.14\n👤 Author: putkoff (partners@abstractendeavors.com)\n🪪 License: Unknown License\n\n🏷️ Classifiers:\n  - Development Status :: 3 - Alpha\n  - Intended Audience :: Developers\n  - License :: OSI Approved :: MIT License\n  - Programming Language :: Python :: 3\n  - Programming Language :: Python :: 3.11\n\n here is a synopsis of the previous scripts:  in the script: src/abstract_math/__init__.py\n dubbed with the title: abstract_math_v0.0.0.14_init.py_summary\n was described as: The provided script from __init__.py file in the abstract_math package version 0.0.0.14 imports everything from two modules: safe_math and derive_tokens. It suggests that these modules could potentially be the main components of the package. The version and the author information hint at this being an early stage development project. As indicated by the name, abstract_math, this package possibly provides a framework for handling complex mathematical operations. Details of safe_math and derive_tokens could provide more context. However, the current script does not provide details about the functionalities of these imported modules.\n\n/n/n in the script: src/abstract_math/derive_tokens.py\n dubbed with the title: abstract_math_v0.0.0.14_derive_tokens.py_summary\n was described as: This script from derive_tokens.py in the abstract_math package seems involved in complex manipulation or derivation of mathematical tokens, referred to as \"lamports\". It imports Decimal and getcontext from decimal, and safe_math. It sets a high precision for decimal calculations which suggests it deals with complex mathematical operations that demand high accuracy. Several functions are defined to derive quantities like lamports, virtual reserves, sol reserves, sol amounts, token reserves, token amounts, derived token ratio, price, and token decimals. Sol and token variables are updated within these functions. The derive_token_decimals_from_token_variables function appears to calculate derived token amounts and ratios. Hence, the package could be used to handle complex token manipulations and calculations.\n\n/n/n\n\nplease overview the script provided in the chunk_data and derive a description/summary of the script as it relates to the module; this will later be amalgamated with the various portions of the whole module descriptions to create a comprehensive readme\n\n-----------------------------------------------------------------------------\n#chunk_data#\n\nthis is chunk 1 of 1\n\nfrom abstract_utilities import *\nimport math\n#math functions ------------------------------------------------------------------------------------------------------\ndef exponential(value,exp=9,num=-1):\n    return multiply_it(value,exp_it(10,exp,num))def return_0(*args):\n    for arg in args:\n        if arg == None or not is_number(arg) or arg in [0,'0','','null',' ']:\n            return float(0)\n        \ndef exp_it(number,integer,mul):\n    if return_0(number,integer,mul)==float(0):\n        return float(0)\n    return float(number)**float(float(integer)*int(mul))def divide_it(number_1,number_2):\n    if return_0(number_1,number_2)==float(0):\n        return float(0)\n    return float(number_1)/float(number_2)def multiply_it(number_1,number_2):\n    if return_0(number_1,number_2)==float(0):\n        return float(0)\n    return float(number_1)*float(number_2)def add_it(number_1,number_2):\n    if return_0(number_1,number_2)==float(0):\n        return float(0)\n    return float(number_1)+float(number_2)def subtract_it(number_1,number_2):\n    if return_0(number_1,number_2)==float(0):\n        return float(0)\n    return float(number_1)-float(number_2)def get_percentage(owner_balance,address_balance):\n    retained_div = divide_it(owner_balance,address_balance)\n    retained_mul = multiply_it(retained_div,100)\n    return round(retained_mul,2)def get_proper_args(strings,*args,**kwargs):\n    properArgs = [] \n    for key in strings:\n        kwarg = kwargs.get(key)\n        if kwarg == None and args:\n            kwarg = args[0]\n            args = [] if len(args) == 1 else args[1:]\n        properArgs.append(kwarg)\n    return properArgs\ndef get_lamp_difference(*args,**kwargs):\n    sol_lamports =int(exponential(1,exp=9,num=1))\n    proper_args = get_proper_args([\"virtualSolReserves\"],*args,**kwargs)\n    virtualLamports = len(str(proper_args[0]))\n    virtual_sol_lamports =int(exponential(1,exp=virtualLamports,num=1))\n    return int(exponential(1,exp=len(str(int(virtual_sol_lamports/sol_lamports))),num=1))\ndef get_price(*args,**kwargs):\n    proper_args = get_proper_args([\"virtualSolReserves\",\"virtualTokenReserves\"],*args,**kwargs)\n    return divide_it(*proper_args)/get_lamp_difference(*args,**kwargs)\ndef get_amount_price(*args,**kwargs):\n    proper_args = get_proper_args([\"solAmount\",\"tokenAmount\"],*args,**kwargs)\n    return divide_it(*proper_args) \ndef getSolAmountUi(*args,**kwargs):\n    proper_args = get_proper_args([\"solAmount\"],*args,**kwargs)\n    return exponential(proper_args[0],9)\ndef getTokenAmountUi(*args,**kwargs):\n    solAmountUi = getSolAmountUi(*args,**kwargs)\n    price = get_price(*args,**kwargs)\n    return solAmountUi/price\ndef derive_token_decimals(*args,**kwargs):\n    proper_args = get_proper_args([\"virtualTokenReserves\",\"tokenAmount\"],*args,**kwargs)\n    price = get_price(*args,**kwargs)\n    if not (proper_args[1] > 0 and proper_args[0] > 0 and price > 0):\n        raise ValueError(\"All inputs must be positive.\")\n    derived_token_amount = proper_args[0] / price\n    ratio = derived_token_amount / proper_args[1]\n    decimals = -1\n    while abs(ratio - round(ratio)) > 1e-9:\n        ratio *= 10\n        decimals += 1\n    return decimals\ndef derive_token_decimals_from_token_variables(variables):\n  variables[\"price\"] = get_price(**variables)\n  derived_token_amount = variables[\"virtualTokenReserves\"] / variables[\"price\"]\n  ratio = derived_token_amount / variables[\"tokenAmount\"]\n  decimals = -1\n  while abs(ratio - round(ratio)) > 1e-9:\n      ratio *= 10\n      decimals += 1\n  variables[\"tokenDecimals\"] = decimals\n  return variables\ndef get_token_amount_ui(*args,**kwargs):\n  proper_args = get_proper_args([\"tokenAmount\"],*args,**kwargs)\n  return exponential(proper_args[0],exp=-derive_token_decimals(*args,**kwargs),num=1)\ndef update_token_variables(variables):\n    variables['solAmountUi'] = getSolAmountUi(**variables)\n    variables['solDecimals'] = 9\n    variables = derive_token_decimals_from_token_variables(variables)\n    variables['tokenAmountUi'] = exponential(variables['tokenAmount'],exp=-variables[\"tokenDecimals\"],num=1)\n    return variables"
+                    }
+                ],
+                "max_tokens": 6304
+            },
+            "response": {
+                "id": "chatcmpl-BWJ5FEDemG3hIQVvBQro5xrTkED0S",
+                "object": "chat.completion",
+                "created": 1747039553,
+                "model": "gpt-4-0613",
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {
+                            "role": "assistant",
+                            "content": {
+                                "api_response": "The script from safe_math.py in the abstract_math package seems to house a collection of mathematical operations and methods. It starts with the import of package abstract_utilities and Python’s math library. Following, various mathematical functions are defined, including operations such as exponentiation (exp_it), addition (add_it), multiplication (multiply_it), division (divide_it), subtraction (subtract_it), and some complex handling like getting percentages (get_percentage), and handling arguments (get_proper_args). Important concepts such as lamport differences, prices, sol amounts, and token amounts are computed within dedicated functions such as get_lamp_difference, get_price, and get_amount_price. Toward the end are some significant functions that derive token decimals and update token variables which could be relevant to computing token ratios and variables based on input parameters. It appears like the script is designed to handle mathematical manipulations and calculations, with a heavy emphasis on specific token computations, possibly used for precise and complex operations.",
+                                "generate_title": "abstract_math_v0.0.0.14_safe_math.py_summary"
+                            },
+                            "refusal": null,
+                            "annotations": []
+                        },
+                        "logprobs": null,
+                        "finish_reason": "stop"
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": 1736,
+                    "completion_tokens": 220,
+                    "total_tokens": 1956,
+                    "prompt_tokens_details": {
+                        "cached_tokens": 0,
+                        "audio_tokens": 0
+                    },
+                    "completion_tokens_details": {
+                        "reasoning_tokens": 0,
+                        "audio_tokens": 0,
+                        "accepted_prediction_tokens": 0,
+                        "rejected_prediction_tokens": 0
+                    }
+                },
+                "service_tier": "default",
+                "system_fingerprint": null,
+                "file_path": "/home/computron/Documents/pythonTools/modules/response_data/raw_response/1747039553.json",
+                "title": 1747039553
+            },
+            "file_path": "/home/computron/Documents/pythonTools/modules/response_data/2025-05-12/gpt-4-0613/1747039553.json",
+            "title": 1747039553,
+            "model": "gpt-4-0613"
+        }
+    ]
+}
