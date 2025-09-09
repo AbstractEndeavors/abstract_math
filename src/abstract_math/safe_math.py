@@ -1,8 +1,6 @@
 from abstract_utilities import *
 import math
 #math functions ------------------------------------------------------------------------------------------------------
-def exponential(value,exp=9,num=-1):
-    return multiply_it(value,exp_it(10,exp,num))
 
 def add_it(number_1,number_2):
     if return_0(number_1,number_2)==float(0):

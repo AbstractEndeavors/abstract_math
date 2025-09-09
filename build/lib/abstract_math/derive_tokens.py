@@ -7,7 +7,7 @@ getcontext().prec = 50
 # SOL constants
 SOL_DECIMAL_PLACE = 9
 # lamports per SOL = 10**9
-SOL_LAMPORTS = sol_lamports = int(exponential(1, exp=SOL_DECIMAL_PLACE, num=1))
+SOL_LAMPORTS = sol_lamports = int(exponentials(1, exp=SOL_DECIMAL_PLACE, num=1))
 
 
 def get_proper_args(strings, *args, **kwargs):
