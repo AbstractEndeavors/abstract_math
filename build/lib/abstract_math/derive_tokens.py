@@ -1,6 +1,5 @@
 from decimal import Decimal, getcontext
 from .safe_math import *
-from .safe_math import exp_it, divide_it  # if you need these
 
 # High precision for decimal ops
 getcontext().prec = 50
