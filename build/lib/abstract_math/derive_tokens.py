@@ -1,5 +1,7 @@
 from decimal import Decimal, getcontext
 from .safe_math import *
+def exponentials(value,exp=9,num=-1):
+    return multiply_it(value,exp_it(10,exp,num))
 
 # High precision for decimal ops
 getcontext().prec = 50
