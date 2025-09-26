@@ -19,6 +19,8 @@ DISTANCE_CONVERSIONS: Dict[str, Dict[str, Dict[str, float]]] = {
     "feet": FEET
 }
 ALL_DISTANCE_UNITS = ("meters", "kilometers", "miles", "feet")
+DEFAULT_UNITS="meters"
+DEFAULT_START_ALTITUDE=0.0
 # -------------------------
 # Unit helpers
 # -------------------------
@@ -41,5 +43,27 @@ def _factor(unit_from: str, unit_to: str) -> float:
     ut = get_distance_unit_conversions(unit_to)["conv"]["meters"]    # meters per 1 to-unit
     return div(uf, ut)
 
-def convert(value: float, unit_from: str, unit_to: str) -> float:
+def dconvert(value: float, unit_from: str, unit_to: str) -> float:
     return mul(value, _factor(unit_from, unit_to))
+def get_normalized_distance(
+    distance: Optional[float] = None,
+    input_units: str = DEFAULT_UNITS
+    ):
+    distance = target_alt_m = distance or 0
+    if distance is not None:
+        target_alt_m = dconvert(value=distance,
+                unit_from=input_units,
+                unit_to=DEFAULT_UNITS
+                )
+    return target_alt_m
+def get_target_distance(
+    distance: Optional[float] = None,
+    input_units: str = DEFAULT_UNITS,
+    output_units: str = DEFAULT_UNITS,
+    ):
+    distance = target_distance = distance or 0
+    if distance is not None:
+        target_distance = dconvert(value=distance,
+                              unit_from=input_units,
+                              unit_to=output_units)
+    return target_distance

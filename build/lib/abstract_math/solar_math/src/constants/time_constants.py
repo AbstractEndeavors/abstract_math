@@ -21,7 +21,7 @@ TIME_CONVERSIONS = {
     "days":    DAYS,
 }
 ALL_TIME_UNITS = ("seconds", "minutes", "hours", "days")
-
+DEFAULT_TIME="s"
 def normalize_time_unit(unit: str) -> str:
     u = unit.strip().lower()
     if u in TIME_CONVERSIONS:

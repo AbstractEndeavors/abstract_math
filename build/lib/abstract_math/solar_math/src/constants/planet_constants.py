@@ -28,7 +28,8 @@ PLANETS = [
     { "name":'Neptune',"m0_deg":-55.12002969,"mu":6.83653e15,"a":4.4983964e12,"e":0.00859048,"radiusPx":10,"color":'#4363d8',"radius":24764000,"escapeVel":23500,"n":8,"peri_lon_deg":44.96476227 },
     { "name":'Moon',"m0_deg":0,"mu":MU_MOON,"a":3.844e8,"e":0.0549,"radiusPx":5,"color":'lightgray',"radius":1.737e6,"escapeVel":2380,"n":9}
 ]
-
+DEFAULT_PLANET='earth'
+DEFAULT_AS_RADIUS=False
 # -------------------------
 # Body enrichment + lookup
 # -------------------------
@@ -46,7 +47,7 @@ def _enrich_body(b: Dict[str, Any]) -> Dict[str, Any]:
 
 _NAME_ALIASES = {"sol": "sun", "terra": "earth", "luna": "moon"}
 def _normalize_name(name: str) -> str:
-    n = name.strip().lower()
+    n = name.lower()
     return _NAME_ALIASES.get(n, n)
 
 _BODY_BY_NAME: Dict[str, Dict[str, Any]] = {}
@@ -154,3 +155,9 @@ def get_body(planet: str) -> Dict[str, Any]:
 
 def g_at_radius(mu: float, r_m: float) -> float:
     return div(mu, mul(r_m, r_m))
+
+def get_R_mu(planet: str = DEFAULT_PLANET):
+    body = get_body(planet)
+    mu = body.get("mu")          # m^3/s^2
+    R  = body.get("radius")      # m
+    return R,mu
