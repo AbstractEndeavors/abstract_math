@@ -72,8 +72,8 @@ def get_planet_vars(name: str, units: str = "meters") -> Dict[str, Any]:
     d_m = body["diameter"]
     
     out = dict(body)
-    out["radius"] = convert(r_m, "meters", units_norm)
-    out["diameter"] = convert(d_m, "meters", units_norm)
+    out["radius"] = dconvert(r_m, "meters", units_norm)
+    out["diameter"] = dconvert(d_m, "meters", units_norm)
     out["radius_units"] = units_norm
     out["diameter_units"] = units_norm
     return out
@@ -109,7 +109,7 @@ def escape_velocity(name: str = "earth", altitude: float = 0.0, units: str = "me
     """
     mu = _BODY_BY_NAME[_normalize_name(name)]["mu"]
     r  = _BODY_BY_NAME[_normalize_name(name)]["radius"]  # meters
-    h_m = convert(altitude, units, "meters")
+    h_m = dconvert(altitude, units, "meters")
     R = add(r, h_m)
     return math.sqrt(mul(2.0, div(mu, R)))
 
