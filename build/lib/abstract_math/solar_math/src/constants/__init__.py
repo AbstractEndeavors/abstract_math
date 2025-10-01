@@ -15,5 +15,6 @@ from .planet_constants import (
     full_planet_surface_area, planet_volume, planet_circumference,
     planet_mass, planet_surface_g, escape_velocity,
     earth_radius, earth_diameter, full_earth_surface_area,
-    earth_volume, earth_circumference,DEFAULT_PLANET,DEFAULT_AS_RADIUS
+    earth_volume, earth_circumference,DEFAULT_PLANET,DEFAULT_AS_RADIUS,
+    distance_per_sec_to_mps
 )
