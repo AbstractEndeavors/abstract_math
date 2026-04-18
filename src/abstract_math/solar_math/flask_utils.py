@@ -1,4 +1,4 @@
-from abstract_flask import *
+from abstract_flask import generate_from_files
 from abstract_utilities import write_to_file
 directory='/home/computron/Documents/pythonTools/modules/abstract_math/src/abstract_math/solar_math'
 output_file='/home/computron/Documents/pythonTools/modules/abstract_math/src/abstract_math/flask_scripts/flask_utils.py'

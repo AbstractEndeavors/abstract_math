@@ -5,31 +5,32 @@ from .src.constants.time_constants import seconds_per
 from .src.constants.planet_constants import planet_radius, get_body, g_at_radius
 from .src.utils.geometry_utils import visible_area_flat, visible_surface_angle
 from .src.utils import get_R_mu,get_normalized_distance,get_normalized_starting_velocity
-from .src.imports import math, mul, div, add  # your abstract_math ops
+from .src.imports import math, mul, div, add, exp  # your abstract_math ops
 from .src.constants import (
-    DEFAULT_UNITS,
-    DEFAULT_TIME,
+    DEFAULT_DIST_UNIT,
+    DEFAULT_TIME_UNIT,
     DEFAULT_PLANET,
     DEFAULT_START_ALTITUDE,
     DEFAULT_AS_RADIUS
     )
+
 def normalize_inputs(
     planet: str,
     start_altitude: float,
     starting_velocity: float,
-    input_units: str,
-    input_time: str,
+    input_dist_unit: str,
+    input_time_unit: str,
     target_distance: float = None,
 ) -> dict:
     """Normalize input altitudes and velocities into SI (meters, seconds)."""
-    start_alt_m = get_normalized_distance(start_altitude, input_units)
-    target_alt_m = get_normalized_distance(target_distance, input_units)
+    start_alt_m = get_normalized_distance(start_altitude, input_dist_unit)
+    target_alt_m = get_normalized_distance(target_distance, input_dist_unit)
 
     v0_mps = get_normalized_starting_velocity(
         start_altitude=start_alt_m,
         starting_velocity=starting_velocity,
-        input_units=input_units,
-        input_time=input_time,
+        input_dist_unit=input_dist_unit,
+        input_time_unit=input_time_unit,
         planet=planet,
     )
 
@@ -44,43 +45,43 @@ def analyze_visible_surface(
     max_steps: int = 20,
     fov_range: tuple[int, int] = (20, 160),
     fov_interval: int = 10,
-    input_units: str = DEFAULT_UNITS,      # how to interpret altitude numbers
-    display_units: str = DEFAULT_UNITS,    # how to print areas/radii
+    input_dist_unit: str = DEFAULT_DIST_UNIT,      # how to interpret altitude numbers
+    display_units: str = DEFAULT_DIST_UNIT,    # how to print areas/radii
     planet: str = DEFAULT_PLANET,
     printit: bool = False
 ):
     """
-    Scan altitudes/FOVs. Altitudes are interpreted in `input_units`.
+    Scan altitudes/FOVs. Altitudes are interpreted in `input_dist_unit`.
     Results are printed in `display_units`.
     """
     # Planet radius and full area (compute in meters, convert for display)
-    r_m = planet_radius(planet, DEFAULT_UNITS)
+    r_m = planet_radius(planet, DEFAULT_DIST_UNIT)
     full_area_m2 = 4.0 * math.pi * (r_m ** 2)
-    k_disp = dfactor(DEFAULT_UNITS, display_units)      # linear meter->display factor
+    k_disp = dfactor(DEFAULT_DIST_UNIT, display_units)      # linear meter->display factor
     full_area_disp = full_area_m2 * (k_disp ** 2)  # convert area to display units^2
 
-    all_stats = {"output": "", "input_units": input_units,
+    all_stats = {"output": "", "input_dist_unit": input_dist_unit,
                  "display_units": display_units, "vars": []}
 
     for i in range(1, max_steps + 1):
         all_stats["vars"].append({})
-        altitude_in = altitude_step * i                       # input_units
-        altitude_m  = dconvert(altitude_in, input_units, DEFAULT_UNITS)
+        altitude_in = altitude_step * i                       # input_dist_unit
+        altitude_m  = dconvert(altitude_in, input_dist_unit, DEFAULT_DIST_UNIT)
 
         all_stats["vars"][-1]['altitude_input'] = altitude_in
-        all_stats["vars"][-1]['input_units']    = input_units
+        all_stats["vars"][-1]['input_dist_unit']    = input_dist_unit
         all_stats["vars"][-1]['fov']            = []
 
-        alt_pretty = dconvert(altitude_in, input_units, display_units)
+        alt_pretty = dconvert(altitude_in, input_dist_unit, display_units)
         all_stats["output"] += (
-            f"\n=== Altitude: {altitude_in} {input_units} (≈ {alt_pretty:.3f} {display_units}) ===\n"
+            f"\n=== Altitude: {altitude_in} {input_dist_unit} (≈ {alt_pretty:.3f} {display_units}) ===\n"
         )
 
         for fov in range(fov_range[0], fov_range[1] + 1, fov_interval):
             # Compute visible area/radius in meters, convert to display units
-            area_m2, vis_radius_m = visible_area_flat(fov, altitude_m, DEFAULT_UNITS)
+            area_m2, vis_radius_m = visible_area_flat(fov, altitude_m, DEFAULT_DIST_UNIT)
             area_disp = area_m2 * (k_disp ** 2)
-            vis_radius_disp = dconvert(vis_radius_m, DEFAULT_UNITS, display_units)
+            vis_radius_disp = dconvert(vis_radius_m, DEFAULT_DIST_UNIT, display_units)
 
             # Span uses geometry only; r_m is in meters
             _, angle_deg = visible_surface_angle(vis_radius_m, r_m)
@@ -198,7 +199,7 @@ def simulate_radial_flight_si(
         "hit_target": hit_target,
         "turned_back": turned_back,
         "traveled_m": traveled_m,
-        "vesc_end_mps": math.sqrt(mul(2.0, div(mu, r))),
+        "vesc_end_mps": exp(mul(2.0, div(mu, r)),-2),
 
         # extended stats
         "furthest_r": tracker["furthest_r"],
@@ -212,10 +213,10 @@ def simulate_radial_flight_si(
 def radial_travel(
     starting_velocity: float = None,
     start_altitude: float = None,
-    input_units: str = DEFAULT_UNITS,
-    input_time: str = DEFAULT_TIME,
-    output_units: str = DEFAULT_UNITS,
-    output_time: str = DEFAULT_TIME,
+    input_dist_unit: str = DEFAULT_DIST_UNIT,
+    input_time_unit: str = DEFAULT_TIME_UNIT,
+    output_dist_unit: str = DEFAULT_DIST_UNIT,
+    output_time_unit: str = DEFAULT_TIME_UNIT,
     *,
     planet: str = DEFAULT_PLANET,
     dt_s: float = 1.0,
@@ -225,7 +226,7 @@ def radial_travel(
     """Wrapper: handles units, runs SI integrator, converts outputs."""
     norm = normalize_inputs(
         planet=planet, start_altitude=start_altitude, starting_velocity=starting_velocity,
-        input_units=input_units, input_time=input_time, target_distance=target_distance
+        input_dist_unit=input_dist_unit, input_time_unit=input_time_unit, target_distance=target_distance
     )
 
     sim = simulate_radial_flight_si(
@@ -240,8 +241,8 @@ def radial_travel(
         return sim
 
     # Output conversions
-    sec_per_out = seconds_per(output_time)
-    conv = lambda m: dconvert(m, DEFAULT_UNITS, output_units)
+    sec_per_out = seconds_per(output_time_unit)
+    conv = lambda m: dconvert(m, DEFAULT_DIST_UNIT, output_dist_unit)
 
     return {
         "ok": True,
@@ -249,20 +250,20 @@ def radial_travel(
         "inputs": {
             "start_altitude": start_altitude,
             "starting_velocity": starting_velocity,
-            "input_units": input_units,
-            "input_time": input_time,
-            "output_units": output_units,
-            "output_time": output_time,
+            "input_dist_unit": input_dist_unit,
+            "input_time_unit": input_time_unit,
+            "output_dist_unit": output_dist_unit,
+            "output_time_unit": output_time_unit,
             "target_distance": target_distance,
         },
         # final state
         "altitude": conv(sim["altitude_m"]),
         "radius_from_center": conv(sim["r_m"]),
         "distance_traveled": conv(sim["traveled_m"]),
-        "velocity": mul(dconvert(sim["vEnd_mps"], DEFAULT_UNITS, output_units), sec_per_out),
-        "velocity_escape_end": mul(dconvert(sim["vesc_end_mps"], DEFAULT_UNITS, output_units), sec_per_out),
+        "velocity": mul(dconvert(sim["vEnd_mps"], DEFAULT_DIST_UNIT, output_dist_unit), sec_per_out),
+        "velocity_escape_end": mul(dconvert(sim["vesc_end_mps"], DEFAULT_DIST_UNIT, output_dist_unit), sec_per_out),
         "time": div(sim["time_s"], sec_per_out),
-        "time_unit": output_time,
+        "time_unit": output_time_unit,
         "g_end_mps2": sim["g_end_mps2"],
         "g_ratio_surface": sim["g_ratio_surface"],
         "steps": sim["steps"],

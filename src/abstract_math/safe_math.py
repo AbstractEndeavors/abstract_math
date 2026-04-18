@@ -1,4 +1,4 @@
-from abstract_utilities import *
+from abstract_utilities import is_number
 import math
 import operator
 from functools import reduce

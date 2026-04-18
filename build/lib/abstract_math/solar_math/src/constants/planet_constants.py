@@ -47,8 +47,9 @@ def _enrich_body(b: Dict[str, Any]) -> Dict[str, Any]:
 
 _NAME_ALIASES = {"sol": "sun", "terra": "earth", "luna": "moon"}
 def _normalize_name(name: str) -> str:
-    n = name.lower()
-    return _NAME_ALIASES.get(n, n)
+    if isinstance(name,str):
+        n = name.lower()
+        return _NAME_ALIASES.get(n, n)
 
 _BODY_BY_NAME: Dict[str, Dict[str, Any]] = {}
 for entry in PLANETS:
@@ -57,7 +58,7 @@ for entry in PLANETS:
 # -------------------------
 # Public API
 # -------------------------
-def get_planet_vars(name: str, units: str = "meters") -> Dict[str, Any]:
+def get_planet_vars(name: str, dist_unit: str = "meters") -> Dict[str, Any]:
     """
     Return body properties with radius/diameter in `units`.
     Mass in kg; mu in m^3/s^2; surface_g in m/s^2.
@@ -67,49 +68,49 @@ def get_planet_vars(name: str, units: str = "meters") -> Dict[str, Any]:
     if body is None:
         raise KeyError(f"Unknown body '{name}'. Available: {sorted(_BODY_BY_NAME.keys())}")
 
-    units_norm = normalize_distance_unit(units)
+    dist_unit_norm = normalize_distance_unit(dist_unit)
     r_m = body["radius"]
     d_m = body["diameter"]
     
     out = dict(body)
-    out["radius"] = dconvert(r_m, "meters", units_norm)
-    out["diameter"] = dconvert(d_m, "meters", units_norm)
-    out["radius_units"] = units_norm
-    out["diameter_units"] = units_norm
+    out["radius"] = dconvert(r_m, "meters", dist_unit_norm)
+    out["diameter"] = dconvert(d_m, "meters", dist_unit_norm)
+    out["radius_unit"] = dist_unit_norm
+    out["diameter_unit"] = dist_unit_norm
     return out
 
-def planet_radius(name: str = "earth", units: str = "meters") -> float:
-    return get_planet_vars(name, units)["radius"]
+def planet_radius(name: str = "earth", dist_unit: str = "meters") -> float:
+    return get_planet_vars(name, dist_unit)["radius"]
 
-def planet_diameter(name: str = "earth", units: str = "meters") -> float:
-    return get_planet_vars(name, units)["diameter"]
+def planet_diameter(name: str = "earth", dist_unit: str = "meters") -> float:
+    return get_planet_vars(name, dist_unit)["diameter"]
 
-def full_planet_surface_area(name: str = "earth", units: str = 'meters') -> float:
-    r = planet_radius(name,units)
+def full_planet_surface_area(name: str = "earth", dist_unit: str = 'meters') -> float:
+    r = planet_radius(name,dist_unit)
     return mul(4 * pi(), exp(r, 2))
 
-def planet_volume(name: str = "earth", units: str = 'meters') -> float:
-    r = planet_radius(name,units)
+def planet_volume(name: str = "earth", dist_unit: str = 'meters') -> float:
+    r = planet_radius(name,dist_unit)
     return mul((4.0/3.0) * pi(), exp(r, 3))
 
-def planet_circumference(name: str = "earth", units: str = 'meters') -> float:
-    r = planet_radius(name,units)
+def planet_circumference(name: str = "earth", dist_unit: str = 'meters') -> float:
+    r = planet_radius(name,dist_unit)
     return mul(2 * pi(), r)
 
 def planet_mass(name: str = "earth") -> float:
     return get_planet_vars(name)["mass"]
 
-def planet_surface_g(name: str = "earth", as_g0: bool = False) -> float:
-    v = get_planet_vars(name)["surface_g"]
+def planet_surface_g(name: str = "earth", as_g0: bool = False, dist_unit: str = "meters") -> float:
+    v = get_planet_vars(name, dist_unit)["surface_g"]
     return div(v, g0) if as_g0 else v
 
-def escape_velocity(name: str = "earth", altitude: float = 0.0, units: str = "meters") -> float:
+def escape_velocity(name: str = "earth", altitude: float = 0.0, dist_unit: str = "meters") -> float:
     """
     Escape velocity (m/s) from altitude above surface.
     """
     mu = _BODY_BY_NAME[_normalize_name(name)]["mu"]
     r  = _BODY_BY_NAME[_normalize_name(name)]["radius"]  # meters
-    h_m = dconvert(altitude, units, "meters")
+    h_m = dconvert(altitude, dist_unit, "meters")
     R = add(r, h_m)
     return math.sqrt(mul(2.0, div(mu, R)))
 
@@ -119,31 +120,31 @@ def escape_velocity(name: str = "earth", altitude: float = 0.0, units: str = "me
 def pi() -> float:
     return math.pi
 
-def earth_radius(units: str = 'meters') -> float:
-    return planet_radius('earth', units)
+def earth_radius(dist_unit: str = 'meters') -> float:
+    return planet_radius('earth', dist_unit)
 
-def earth_diameter(units: str = 'meters') -> float:
-    return planet_diameter('earth', units)
+def earth_diameter(dist_unit: str = 'meters') -> float:
+    return planet_diameter('earth', dist_unit)
 
-def full_earth_surface_area(units: str = 'meters') -> float:
-    r = earth_radius(units)
+def full_earth_surface_area(dist_unit: str = 'meters') -> float:
+    r = earth_radius(dist_unit)
     return mul(4 * pi(), exp(r, 2))
 
-def earth_volume(units: str = 'meters') -> float:
-    r = earth_radius(units)
+def earth_volume(dist_unit: str = 'meters') -> float:
+    r = earth_radius(dist_unit)
     return mul((4.0/3.0) * pi(), exp(r, 3))
 
-def earth_circumference(units: str = 'meters') -> float:
-    r = earth_radius(units)
+def earth_circumference(dist_unit: str = 'meters') -> float:
+    r = earth_radius(dist_unit)
     return mul(2 * pi(), r)
 
 # =========================
 # Radial toy + single-call wrapper
 # =========================
-def distance_per_sec_to_mps(v_per_sec: float, units: str) -> float:
+def distance_per_sec_to_mps(v_per_sec: float, dist_unit: str) -> float:
     """Convert a speed given in `units`/s into m/s using your convert()."""
     # v [units/s] * (meters per 1 units) => [m/s]
-    return mul(v_per_sec, get_distance_unit_conversions(_normalize_unit(units))["conv"]["meters"])
+    return mul(v_per_sec, get_distance_unit_conversions(_normalize_unit(dist_unit))["conv"]["meters"])
 
 
 def get_body(planet: str) -> Dict[str, Any]:

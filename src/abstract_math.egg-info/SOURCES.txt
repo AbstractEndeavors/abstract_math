@@ -18,9 +18,12 @@ src/abstract_math/solar_math/src/__init__.py
 src/abstract_math/solar_math/src/imports.py
 src/abstract_math/solar_math/src/constants/__init__.py
 src/abstract_math/solar_math/src/constants/distance_constants.py
+src/abstract_math/solar_math/src/constants/geometric_constants.py
+src/abstract_math/solar_math/src/constants/getmaths.py
 src/abstract_math/solar_math/src/constants/planet_constants.py
 src/abstract_math/solar_math/src/constants/time_constants.py
 src/abstract_math/solar_math/src/utils/__init__.py
 src/abstract_math/solar_math/src/utils/escape_velocity.py
 src/abstract_math/solar_math/src/utils/geometry_utils.py
 src/abstract_math/solar_math/src/utils/velocity_utils.py
+tests/test.py
