@@ -4,7 +4,7 @@ from .src.constants.distance_constants import dconvert, _factor as dfactor
 from .src.constants.time_constants import seconds_per
 from .src.constants.planet_constants import planet_radius, get_body, g_at_radius
 from .src.utils.geometry_utils import visible_area_flat, visible_surface_angle
-from .src.utils import get_R_mu,get_normalized_distance,get_normalized_starting_velocity
+from .src.utils import tangential_component,radial_component,get_R_mu,get_normalized_distance,get_normalized_starting_velocity
 from .src.imports import math, mul, div, add, exp  # your abstract_math ops
 from .src.constants import (
     DEFAULT_DIST_UNIT,
@@ -21,24 +21,31 @@ def normalize_inputs(
     input_dist_unit: str,
     input_time_unit: str,
     target_distance: float = None,
+    flight_path_angle_deg: float = 90.0
 ) -> dict:
     """Normalize input altitudes and velocities into SI (meters, seconds)."""
     start_alt_m = get_normalized_distance(start_altitude, input_dist_unit)
     target_alt_m = get_normalized_distance(target_distance, input_dist_unit)
 
-    v0_mps = get_normalized_starting_velocity(
+    total_v0_mps = get_normalized_starting_velocity(
         start_altitude=start_alt_m,
         starting_velocity=starting_velocity,
         input_dist_unit=input_dist_unit,
         input_time_unit=input_time_unit,
         planet=planet,
     )
-
+    v0_radial_mps = radial_component(
+        total_v0_mps,
+        flight_path_angle_deg,
+    )
     return {
         "start_alt_m": start_alt_m,
         "target_alt_m": target_alt_m,
-        "v0_mps": v0_mps,
+        "v0_mps": v0_radial_mps,
+        "total_v0_mps": total_v0_mps,
+        "flight_path_angle_deg": flight_path_angle_deg,
     }
+
 # --- Analyzer (prints a scan; no blocking input) ---
 def analyze_visible_surface(
     altitude_step: float = 200.0,
@@ -221,12 +228,17 @@ def radial_travel(
     planet: str = DEFAULT_PLANET,
     dt_s: float = 1.0,
     max_steps: int = 5_000_000,
-    target_distance: float = None
+    target_distance: float = None,
+    flight_path_angle_deg: float = 90.0,
 ) -> dict:
-    """Wrapper: handles units, runs SI integrator, converts outputs."""
     norm = normalize_inputs(
-        planet=planet, start_altitude=start_altitude, starting_velocity=starting_velocity,
-        input_dist_unit=input_dist_unit, input_time_unit=input_time_unit, target_distance=target_distance
+        planet=planet,
+        start_altitude=start_altitude,
+        starting_velocity=starting_velocity,
+        input_dist_unit=input_dist_unit,
+        input_time_unit=input_time_unit,
+        target_distance=target_distance,
+        flight_path_angle_deg=flight_path_angle_deg,
     )
 
     sim = simulate_radial_flight_si(
@@ -237,10 +249,10 @@ def radial_travel(
         max_steps=max_steps,
         target_alt_m=norm["target_alt_m"],
     )
+
     if not sim.get("ok"):
         return sim
 
-    # Output conversions
     sec_per_out = seconds_per(output_time_unit)
     conv = lambda m: dconvert(m, DEFAULT_DIST_UNIT, output_dist_unit)
 
@@ -249,19 +261,21 @@ def radial_travel(
         "planet": planet,
         "inputs": {
             "start_altitude": start_altitude,
-            "starting_velocity": starting_velocity,
+            "starting_velocity_total": starting_velocity,
+            "flight_path_angle_deg": flight_path_angle_deg,
             "input_dist_unit": input_dist_unit,
             "input_time_unit": input_time_unit,
             "output_dist_unit": output_dist_unit,
             "output_time_unit": output_time_unit,
             "target_distance": target_distance,
         },
-        # final state
         "altitude": conv(sim["altitude_m"]),
         "radius_from_center": conv(sim["r_m"]),
-        "distance_traveled": conv(sim["traveled_m"]),
-        "velocity": mul(dconvert(sim["vEnd_mps"], DEFAULT_DIST_UNIT, output_dist_unit), sec_per_out),
-        "velocity_escape_end": mul(dconvert(sim["vesc_end_mps"], DEFAULT_DIST_UNIT, output_dist_unit), sec_per_out),
+        "distance_traveled_radial": conv(sim["traveled_m"]),
+        "velocity_radial": mul(
+            dconvert(sim["vEnd_mps"], DEFAULT_DIST_UNIT, output_dist_unit),
+            sec_per_out,
+        ),
         "time": div(sim["time_s"], sec_per_out),
         "time_unit": output_time_unit,
         "g_end_mps2": sim["g_end_mps2"],
@@ -270,11 +284,8 @@ def radial_travel(
         "hit_surface": sim["hit_surface"],
         "hit_target": sim["hit_target"],
         "turned_back": sim["turned_back"],
-
-        # extended stats (converted)
         "furthest_distance": conv(sim["furthest_altitude_m"]),
         "furthest_radius": conv(sim["furthest_r"]),
         "time_at_furthest": div(sim["time_at_furthest"], sec_per_out),
-        "total_distance": conv(sim["total_distance_m"]),
+        "total_radial_distance": conv(sim["total_distance_m"]),
     }
-
