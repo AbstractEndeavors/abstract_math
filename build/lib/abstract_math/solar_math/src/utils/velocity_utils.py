@@ -51,8 +51,8 @@ def mps_to_distance_per_time(v_mps: float, dist_unit: str, time_unit: str) -> fl
 
 def get_velocity_conversion(
     velocity,
-    input_time_unit: str = DEFAULT_TIME_UNIT,
     input_dist_unit: str = DEFAULT_DIST_UNIT,
+    input_time_unit: str = DEFAULT_TIME_UNIT,
     output_dist_unit: str = DEFAULT_DIST_UNIT,
     output_time_unit: str = DEFAULT_TIME_UNIT,
     ):

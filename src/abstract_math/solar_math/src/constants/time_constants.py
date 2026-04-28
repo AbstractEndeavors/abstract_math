@@ -1,26 +1,73 @@
 #src/constants/time_constants.py
-# --- Time unit schema (seconds-per-unit) ---
-second = 1.0
-minute = 60.0 * second
-hour   = 60.0 * minute
-day    = 24.0 * hour
+from ..imports import *
 
-SECONDS = {"strings": ['s', 'sec', 'secs', 'second', 'seconds'],
-           "conv": {"seconds": 1.0}}
-MINUTES = {"strings": ['min', 'mins', 'minute', 'minutes'],
-           "conv": {"seconds": minute}}
-HOURS   = {"strings": ['h', 'hr', 'hrs', 'hour', 'hours'],
-           "conv": {"seconds": hour}}
-DAYS    = {"strings": ['d', 'day', 'days'],
-           "conv": {"seconds": day}}
+# -------------------------
+# canonical duration factors
+# -------------------------
+
+second = 1.0
+millisecond = 0.001 * second
+minute = 60.0 * second
+hour = 60.0 * minute
+day = 24.0 * hour
+week = 7.0 * day
+
+# Approximate calendar durations
+month = 30.0 * day
+year = 365.0 * day
+
+MILLISECONDS = {
+    "strings": ["ms", "msec", "msecs", "millisecond", "milliseconds"],
+    "conv": {"seconds": millisecond},
+}
+
+SECONDS = {
+    "strings": ["s", "sec", "secs", "second", "seconds"],
+    "conv": {"seconds": second},
+}
+
+MINUTES = {
+    "strings": ["m", "min", "mins", "minute", "minutes"],
+    "conv": {"seconds": minute},
+}
+
+HOURS = {
+    "strings": ["h", "hr", "hrs", "hour", "hours"],
+    "conv": {"seconds": hour},
+}
+
+DAYS = {
+    "strings": ["d", "day", "days"],
+    "conv": {"seconds": day},
+}
+
+WEEKS = {
+    "strings": ["w", "wk", "wks", "week", "weeks"],
+    "conv": {"seconds": week},
+}
+
+MONTHS = {
+    "strings": ["mo", "mos", "month", "months"],
+    "conv": {"seconds": month},
+}
+
+YEARS = {
+    "strings": ["y", "yr", "yrs", "year", "years"],
+    "conv": {"seconds": year},
+}
 
 TIME_CONVERSIONS = {
+    "milliseconds": MILLISECONDS,
     "seconds": SECONDS,
     "minutes": MINUTES,
-    "hours":   HOURS,
-    "days":    DAYS,
+    "hours": HOURS,
+    "days": DAYS,
+    "weeks": WEEKS,
+    "months": MONTHS,
+    "years": YEARS,
 }
-ALL_TIME_UNITS = ("seconds", "minutes", "hours", "days")
+
+ALL_TIME_UNITS = ("milliseconds","seconds", "minutes", "hours", "days","weeks","months","years")
 DEFAULT_TIME_UNIT="s"
 def get_smallest_time_unit_string(unit):
     for key,values in TIME_CONVERSIONS.items():

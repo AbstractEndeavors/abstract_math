@@ -25,5 +25,6 @@ src/abstract_math/solar_math/src/constants/time_constants.py
 src/abstract_math/solar_math/src/utils/__init__.py
 src/abstract_math/solar_math/src/utils/escape_velocity.py
 src/abstract_math/solar_math/src/utils/geometry_utils.py
+src/abstract_math/solar_math/src/utils/test.py
 src/abstract_math/solar_math/src/utils/velocity_utils.py
 tests/test.py
