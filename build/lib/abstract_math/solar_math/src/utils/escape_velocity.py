@@ -1,5 +1,5 @@
 # src/utils/escape_velocity.py
-from ..imports import math, mul, div, add
+from ..imports import math, mul, div, add,sub
 from ..constants import (
     DEFAULT_DIST_UNIT,
     DEFAULT_TIME_UNIT,
