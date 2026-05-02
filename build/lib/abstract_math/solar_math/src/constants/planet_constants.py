@@ -157,7 +157,7 @@ def hill_radius(
     r_m = mul(b["a"], exp(ratio, 1.0/3.0))
     hill_rad =  dconvert(r_m,input_dist_units=input_dist_units , output_dist_units=normalized_output_dist_units)
     if not to_dict:
-        return per_sec_to_mps
+        return hill_rad
     return {
             "input": {
                 "planet":planet,
