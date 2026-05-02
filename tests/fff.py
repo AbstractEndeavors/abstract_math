@@ -4,9 +4,9 @@ def apogee_from_speed_angle(
     starting_velocity: float,
     flight_path_angle_deg: float,
     target_altitude: float = None,
-    input_dist_unit: str = DEFAULT_DIST_UNIT,
-    input_time_unit: str = DEFAULT_TIME_UNIT,
-    output_dist_unit: str = DEFAULT_DIST_UNIT,
+    input_dist_units: str = DEFAULT_DIST_UNIT,
+    input_time_units: str = DEFAULT_TIME_UNIT,
+    output_dist_units: str = DEFAULT_DIST_UNIT,
     planet: str = DEFAULT_PLANET,
 ):
     """
@@ -27,13 +27,13 @@ def apogee_from_speed_angle(
 
     r0 = add(
         R,
-        dconvert(start_altitude, input_dist_unit, DEFAULT_DIST_UNIT),
+        dconvert(start_altitude, input_dist_units, DEFAULT_DIST_UNIT),
     )
 
     v0 = distance_per_time_to_mps(
         v=starting_velocity,
-        dist_unit=input_dist_unit,
-        time_unit=input_time_unit,
+        dist_unit=input_dist_units,
+        time_unit=input_time_units,
     )
 
     gamma = math.radians(flight_path_angle_deg)
@@ -106,14 +106,14 @@ def apogee_from_speed_angle(
         "apogee_altitude": dconvert(
             apogee_altitude_m,
             DEFAULT_DIST_UNIT,
-            output_dist_unit,
+            output_dist_units,
         ),
     })
 
     if target_altitude is not None:
         target_altitude_m = dconvert(
             target_altitude,
-            input_dist_unit,
+            input_dist_units,
             DEFAULT_DIST_UNIT,
         )
 
@@ -127,9 +127,9 @@ result = apogee_from_speed_angle(
     starting_velocity=24200,
     flight_path_angle_deg=15,
     target_altitude=238000,
-    input_dist_unit="mi",
-    input_time_unit="h",
-    output_dist_unit="mi",
+    input_dist_units="mi",
+    input_time_units="h",
+    output_dist_units="mi",
     planet="earth",
 )
 

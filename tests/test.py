@@ -15,10 +15,10 @@ burn = distance_from_velocity_time_gravity(
     ending_velocity=SATURN_V_TARGET_VELOCITY,
     time_to_target=SATURN_V_TIME_TO_TARGET,
     time_input_unit="min",
-    input_dist_unit="mi",
-    input_time_unit="h",
-    output_dist_unit="mi",
-    output_time_unit="h",
+    input_dist_units="mi",
+    input_time_units="h",
+    output_dist_units="mi",
+    output_time_units="h",
     planet=planet,
     as_radius=False,
 )
@@ -36,13 +36,13 @@ result = radial_travel(
     starting_velocity=SATURN_V_TARGET_VELOCITY,
     target_distance=DISTANCE_TO_MOON,
     flight_path_angle_deg=FLIGHT_PATH_ANGLE_DEG,
-    input_dist_unit="mi",
-    input_time_unit="h",
-    output_dist_unit="mi",
-    output_time_unit="h",
+    input_dist_units="mi",
+    input_time_units="h",
+    output_dist_units="mi",
+    output_time_units="h",
     planet="earth",
 )
 
 input(result)
 
-##input(radial_travel('earth',output_dist_unit='mi',output_time_unit='hr'))
+##input(radial_travel('earth',output_dist_units='mi',output_time_units='hr'))
