@@ -202,7 +202,7 @@ def soi_radius(
 
 def gravity_reach(
     planet: str = "earth",
-    a_threshold: float = 1e-6,
+    a_threshold: float = 1e-4,
     output_dist_unit: str = "meters",
     to_dict=False
     ) -> float:
@@ -340,7 +340,7 @@ def earth_circumference(
 # =========================
 def distance_per_sec_to_mps(
     v_per_sec: float,
-    input_dist_unit: str,
+    input_dist_unit: str = 'meters',
     to_dict=False
     ) -> float:
     """Convert a speed given in `dist_unit`/s into m/s."""
