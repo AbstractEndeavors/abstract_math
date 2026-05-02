@@ -23,7 +23,20 @@ def normalize_inputs(
     target_distance: float = None,
     flight_path_angle_deg: float = 90.0
 ) -> dict:
-    """Normalize input altitudes and velocities into SI (meters, seconds)."""
+    """
+    **Description:** Acts as the input sanitization layer. It takes human-readable inputs with arbitrary distance and time units and converts them into strict SI units (meters, seconds, meters/second). Crucially, it also uses the `flight_path_angle_deg` to extract the purely radial (vertical) component of the starting velocity, ignoring lateral motion.
+
+    **Parameters:**
+    * `planet` (*str*): The identifier for the celestial body being simulated.
+    * `start_altitude` (*float*): The initial altitude above the planet's surface.
+    * `starting_velocity` (*float*): The total initial velocity vector magnitude.
+    * `input_dist_unit` (*str*): The unit string for input distances (e.g., 'km', 'mi').
+    * `input_time_unit` (*str*): The unit string for input times (e.g., 's', 'hr').
+    * `target_distance` (*float*, optional): The desired target altitude to reach.
+    * `flight_path_angle_deg` (*float*, default: 90.0): The angle of the velocity vector relative to the local horizon (90° = straight up).
+
+    **Returns:** * *dict*: A dictionary containing normalized SI values (`start_alt_m`, `target_alt_m`, `v0_mps` [radial velocity], `total_v0_mps`, and `flight_path_angle_deg`).
+    """
     start_alt_m = get_normalized_distance(start_altitude, input_dist_unit)
     target_alt_m = get_normalized_distance(target_distance, input_dist_unit)
 
@@ -58,8 +71,20 @@ def analyze_visible_surface(
     printit: bool = False
 ):
     """
-    Scan altitudes/FOVs. Altitudes are interpreted in `input_dist_unit`.
-    Results are printed in `display_units`.
+    **Description:** A diagnostic utility that generates a scan of visible surface areas from a planet at incrementally increasing altitudes and different camera Fields of View (FOV). It calculates the spherical cap area visible to an observer and converts the mathematical outputs (in meters) directly into the requested display units. It does not return data to the integrator; it is purely for analysis and reporting.
+
+    **Parameters:**
+    * `altitude_step` (*float*): The increment added to the altitude for each step in the scan.
+    * `max_steps` (*int*): The total number of altitude increments to calculate.
+    * `fov_range` (*tuple[int, int]*): The min and max Field of View angles in degrees.
+    * `fov_interval` (*int*): The step size between FOV calculations.
+    * `input_dist_unit` (*str*): The unit system used to interpret the `altitude_step`.
+    * `display_units` (*str*): The unit system used for printing output areas and radii.
+    * `planet` (*str*): The celestial body being observed.
+    * `printit` (*bool*): If True, prints the generated scan to the console.
+
+    **Returns:**
+    * *dict*: A structured dictionary (`all_stats`) containing the raw text output, units used, and a nested list of variables calculated at every altitude/FOV combination.
     """
     # Planet radius and full area (compute in meters, convert for display)
     r_m = planet_radius(planet, DEFAULT_DIST_UNIT)
@@ -118,7 +143,20 @@ def analyze_visible_surface(
     return all_stats
 # --- core integrator step ---
 def calculate_avrt(mu, v, r, t=0.0, dt_s=1.0, steps=0):
-    """Single Euler step update for radial motion."""
+    """
+    **Description:** The core physics step function. It performs a single iteration of a Forward-Euler numerical integration to update the kinematic state of an object in a radial gravity field. It calculates local gravitational acceleration using the formula $a = -\frac{\mu}{r^2}$.
+
+    **Parameters:**
+    * `mu` (*float*): The standard gravitational parameter of the planet ($GM$).
+    * `v` (*float*): Current radial velocity in m/s.
+    * `r` (*float*): Current distance from the planet's center in meters.
+    * `t` (*float*): Current simulation time in seconds.
+    * `dt_s` (*float*): The time-step delta in seconds.
+    * `steps` (*int*): The current iteration count.
+
+    **Returns:**
+    * *tuple*: The updated kinematic state `(v, r, t, steps)`.
+    """
     a = - div(mu, mul(r, r))  # inward accel
     v = add(v, mul(a, dt_s))
     r = add(r, mul(v, dt_s))
@@ -129,7 +167,15 @@ def calculate_avrt(mu, v, r, t=0.0, dt_s=1.0, steps=0):
 
 # --- tracker helper ---
 def init_tracker(r0: float) -> dict:
-    """Initialize stats tracker."""
+    """
+    **Description:** A lightweight helper function that initializes the state dictionary used to track maximums and totals during the simulation loop.
+
+    **Parameters:**
+    * `r0` (*float*): The initial radius from the center of the planet.
+
+    **Returns:**
+    * *dict*: A tracking dictionary with default values for apoapsis tracking (`furthest_r`, `time_at_furthest`, etc.).
+    """
     return {
         "furthest_r": r0,
         "time_at_furthest": 0.0,
@@ -147,7 +193,20 @@ def simulate_radial_flight_si(
     max_steps: int = 5_000_000,
     target_alt_m: float = None
 ) -> dict:
-    """Forward-Euler radial integrator, SI only (meters/seconds)."""
+    """
+    **Description:** The main simulation loop. It repeatedly calls `calculate_avrt` to advance the object's state through time using strict SI units. The loop monitors for specific exit conditions: hitting the planet's surface, reaching a predefined target altitude, or turning back (reaching apoapsis and falling).
+
+    **Parameters:**
+    * `v0_mps` (*float*): Initial radial velocity in m/s.
+    * `start_alt_m` (*float*): Initial altitude above the surface in meters.
+    * `planet` (*str*): The celestial body dictating the gravity field.
+    * `dt_s` (*float*, default: 1.0): The integration time-step.
+    * `max_steps` (*int*): The maximum allowed loop iterations before timing out.
+    * `target_alt_m` (*float*, optional): The altitude that triggers a successful "hit_target" exit.
+
+    **Returns:**
+    * *dict*: The final simulation state, including boolean flags for how the simulation ended (`hit_surface`, `hit_target`, `turned_back`), final kinematics, local gravity data, and extended tracking stats (like max altitude reached).
+    """
     R, mu = get_R_mu(planet=planet)
     r0 = add(R, start_alt_m)
     r  = r0
@@ -231,6 +290,25 @@ def radial_travel(
     target_distance: float = None,
     flight_path_angle_deg: float = 90.0,
 ) -> dict:
+    """
+    **Description:** The primary public-facing wrapper API. It orchestrates the entire lifecycle of a simulation request. It uses `normalize_inputs` to sanitize the user data, feeds it into `simulate_radial_flight_si`, and finally converts all output data from SI meters/seconds back into the user's specified `output_dist_unit` and `output_time_unit`.
+
+    **Parameters:**
+    * `starting_velocity` (*float*): Initial velocity magnitude.
+    * `start_altitude` (*float*): Initial altitude above the surface.
+    * `input_dist_unit` (*str*): Units for input distance/altitude.
+    * `input_time_unit` (*str*): Units for input time.
+    * `output_dist_unit` (*str*): Desired units for the returned distances/altitudes.
+    * `output_time_unit` (*str*): Desired units for the returned time/velocities.
+    * `planet` (*str*): Target celestial body.
+    * `dt_s` (*float*): Simulation time-step resolution.
+    * `max_steps` (*int*): Simulation iteration limit.
+    * `target_distance` (*float*, optional): Goal altitude to trigger simulation halt.
+    * `flight_path_angle_deg` (*float*, default: 90.0): Launch angle.
+
+    **Returns:**
+    * *dict*: A highly detailed dictionary containing a recap of the inputs, the final converted kinematic state (altitude, velocity, time), completion flags, gravity metrics, and apoapsis (furthest distance) statistics. Returns an error dict if the simulation fails to initialize.
+    """
     norm = normalize_inputs(
         planet=planet,
         start_altitude=start_altitude,
