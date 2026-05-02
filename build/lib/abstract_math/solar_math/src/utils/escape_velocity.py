@@ -12,7 +12,12 @@ from ..constants.planet_constants import get_body,get_R_mu,g_at_radius
 from ..constants.distance_constants import dconvert,get_target_distance,get_normalized_distance
 from ..constants.time_constants import get_time_unit_conversions, normalize_time_unit, seconds_per,tconvert
 from .velocity_utils import normalized_velocity_conversion,get_velocity_conversion
-def get_r_m(planet: str = DEFAULT_PLANET,start_altitude: float = DEFAULT_START_ALTITUDE,input_dist_unit: str = DEFAULT_DIST_UNIT,as_radius:bool = DEFAULT_AS_RADIUS):
+def get_r_m(
+    planet: str = DEFAULT_PLANET,
+    start_altitude: float = DEFAULT_START_ALTITUDE,
+    input_dist_unit: str = DEFAULT_DIST_UNIT,
+    as_radius:bool = DEFAULT_AS_RADIUS
+    ):
     R,mu = get_R_mu(planet=planet)
     r_m = dconvert(start_altitude, input_dist_unit, DEFAULT_DIST_UNIT)
     # Determine radius from center in meters

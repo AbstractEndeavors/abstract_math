@@ -3,32 +3,76 @@ from ..imports import *
 from ..constants import *
 
 
-def distance_per_time_to_mps(v: float, dist_unit: str, time_unit: str) -> float:
+def distance_per_time_to_mps(
+    v: float,
+    input_dist_unit: str,
+    input_time_unit: str,
+    to_dict=False
+    ) -> float:
     """
     Convert <v> in (<dist_unit>/<time_unit>) to m/s.
     """
-    norm_dist_unit = normalize_distance_unit(dist_unit)
+    norm_dist_unit = normalize_distance_unit(input_dist_unit)
     meters_per_unit = get_distance_unit_conversions(norm_dist_unit)["conv"]["meters"]
 
     v_meters_per_timeunit = mul(v, meters_per_unit)
 
-    sec_per_time = seconds_per(time_unit)
+    sec_per_time = seconds_per(input_time_unit)
+    distance_per_mps =  div(v_meters_per_timeunit, sec_per_time)
 
-    return div(v_meters_per_timeunit, sec_per_time)
+    if not to_dict:
+        return distance_per_mps
 
+    return {
+            "input": {
+                "input_dist_unit": input_dist_unit,
+                "input_time_unit": input_time_unit,
+                "units": f"{input_dist_unit}/{input_time_unit}",
+                "velocity": v,
 
-def mps_to_distance_per_time(v_mps: float, dist_unit: str, time_unit: str) -> float:
+            },
+            "output": {
+                "velocity": distance_per_mps ,
+                "output_dist_unit": "m",
+                "output_time_unit": "s",
+                "units": "m/s",
+            }
+        }
+
+def mps_to_distance_per_time(v_mps: float,
+                             output_dist_unit: str,
+                             output_time_unit: str,
+                             to_dict=False
+                             ) -> float:
     """
     Convert m/s to <dist_unit>/<time_unit>.
     """
-    norm_dist_unit = normalize_distance_unit(dist_unit)
+    norm_dist_unit = normalize_distance_unit(output_dist_unit)
     meters_per_unit = get_distance_unit_conversions(norm_dist_unit)["conv"]["meters"]
 
     v_unit_per_sec = div(v_mps, meters_per_unit)
-    sec_per_time = seconds_per(time_unit)
+    sec_per_time = seconds_per(output_time_unit)
+    distance_per_time = mul(v_unit_per_sec, sec_per_time)
 
-    return mul(v_unit_per_sec, sec_per_time)
+    if not to_dict:
+        return distance_per_time
 
+    return {
+            "input": {
+               
+                "input_dist_unit": "m",
+                "input_time_unit": "s",
+                "units": "m/s",
+                "velocity": v_mps,
+
+            },
+            "output": {
+                "velocity": distance_per_time,
+                "output_dist_unit": output_dist_unit,
+                "output_time_unit": output_time_unit,
+                "units": f"{output_dist_unit}/{output_time_unit}",
+            }
+        }
 
 def get_velocity_conversion(
     velocity,
@@ -49,14 +93,14 @@ def get_velocity_conversion(
     """
     v0_mps = distance_per_time_to_mps(
         v=velocity,
-        dist_unit=input_dist_unit,
-        time_unit=input_time_unit,
+        input_dist_unit=input_dist_unit,
+        input_time_unit=input_time_unit,
     )
 
     converted_velocity = mps_to_distance_per_time(
         v_mps=v0_mps,
-        dist_unit=output_dist_unit,
-        time_unit=output_time_unit,
+        output_dist_unit=output_dist_unit,
+        output_time_unit=output_time_unit,
     )
 
     if not to_dict:
@@ -67,19 +111,19 @@ def get_velocity_conversion(
             "velocity": velocity,
             "dist_unit": input_dist_unit,
             "time_unit": input_time_unit,
-            "unit": f"{input_dist_unit}/{input_time_unit}",
+            "units": f"{input_dist_unit}/{input_time_unit}",
         },
         "normalized": {
             "velocity": v0_mps,
             "dist_unit": "m",
             "time_unit": "s",
-            "unit": "m/s",
+            "units": "m/s",
         },
         "output": {
             "velocity": converted_velocity,
             "dist_unit": output_dist_unit,
             "time_unit": output_time_unit,
-            "unit": f"{output_dist_unit}/{output_time_unit}",
+            "unitsd": f"{output_dist_unit}/{output_time_unit}",
         },
     }
 
@@ -114,14 +158,14 @@ def normalized_velocity_conversion(
     return {
         "input": {
             "velocity": velocity,
-            "dist_unit": input_dist_unit,
-            "time_unit": input_time_unit,
-            "unit": f"{input_dist_unit}/{input_time_unit}",
+            "input_dist_unit": input_dist_unit,
+            "input_time_unit": input_time_unit,
+            "units": f"{input_dist_unit}/{input_time_unit}",
         },
         "output": {
             "velocity": v0_mps,
-            "dist_unit": "m",
-            "time_unit": "s",
-            "unit": "m/s",
+            "output_dist_unit": "m",
+            "output_time_unit": "s",
+            "units": "m/s",
         },
     }
