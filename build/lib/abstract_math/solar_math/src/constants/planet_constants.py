@@ -95,29 +95,29 @@ def get_planet_vars(planet: str, output_dist_unit: str = "meters") -> Dict[str, 
 # -------------------------
 # Public API: scalar getters
 # -------------------------
-def planet_radius(planet: str = "earth", input_dist_unit: str = "meters") -> float:
-    return get_planet_vars(planet=planet, input_dist_unit=input_dist_unit)["radius"]
+def planet_radius(planet: str = "earth", output_dist_unit: str = "meters") -> float:
+    return get_planet_vars(planet=planet, output_dist_unit=output_dist_unit)["radius"]
 
-def planet_diameter(planet: str = "earth", input_dist_unit: str = "meters") -> float:
-    return get_planet_vars(planet=planet, input_dist_unit=input_dist_unit)["diameter"]
+def planet_diameter(planet: str = "earth", output_dist_unit: str = "meters") -> float:
+    return get_planet_vars(planet=planet, output_dist_unit=output_dist_unit)["diameter"]
 
-def full_planet_surface_area(planet: str = "earth", input_dist_unit: str = 'meters') -> float:
-    r = planet_radius(planet=planet, input_dist_unit=input_dist_unit)
+def full_planet_surface_area(planet: str = "earth", output_dist_unit: str = 'meters') -> float:
+    r = planet_radius(planet=planet, output_dist_unit=output_dist_unit)
     return mul(4 * pi(), exp(r, 2))
 
-def planet_volume(planet: str = "earth", input_dist_unit: str = 'meters') -> float:
-    r = planet_radius(planet=planet, input_dist_unit=input_dist_unit)
+def planet_volume(planet: str = "earth", output_dist_unit: str = 'meters') -> float:
+    r = planet_radius(planet=planet, output_dist_unit=output_dist_unit)
     return mul((4.0/3.0) * pi(), exp(r, 3))
 
-def planet_circumference(planet: str = "earth", input_dist_unit: str = 'meters') -> float:
-    r = planet_radius(planet=planet, input_dist_unit=input_dist_unit)
+def planet_circumference(planet: str = "earth", output_dist_unit: str = 'meters') -> float:
+    r = planet_radius(planet=planet, output_dist_unit=output_dist_unit)
     return mul(2 * pi(), r)
 
 def planet_mass(planet: str = "earth") -> float:
     return get_planet_vars(planet=planet)["mass"]
 
-def planet_surface_g(planet: str = "earth", as_g0: bool = False, input_dist_unit: str = "meters") -> float:
-    v = get_planet_vars(planet=planet, input_dist_unit=input_dist_unit)["surface_g"]
+def planet_surface_g(planet: str = "earth", as_g0: bool = False, output_dist_unit: str = "meters") -> float:
+    v = get_planet_vars(planet=planet, output_dist_unit=output_dist_unit)["surface_g"]
     return div(v, g0) if as_g0 else v
 
 def escape_velocity(planet: str = "earth", altitude: float = 0.0, input_dist_unit: str = "meters") -> float:
