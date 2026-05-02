@@ -18,7 +18,7 @@ from .planet_constants import (
     planet_mass, planet_surface_g, escape_velocity,
     earth_radius, earth_diameter, full_earth_surface_area,
     earth_volume, earth_circumference,DEFAULT_PLANET,DEFAULT_AS_RADIUS,
-    distance_per_sec_to_mps
+    distance_per_sec_to_mps,hill_radius,soi_radius,gravity_reach
 )
 from .geometric_constants import (
     pi,
