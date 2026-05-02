@@ -86,19 +86,19 @@ def normalize_time_unit(time_unit: str) -> str:
 def get_time_unit_conversions(time_unit: str) -> dict:
     return TIME_CONVERSIONS[normalize_time_unit(time_unit)]
 
-def time_factor(time_unit_from: str, time_unit_to: str) -> float:
+def time_factor(input_time_unit: str, output_time_unit: str) -> float:
     """
     multiplicative factor s.t.
       value_in_to = value_in_from * _time_factor(unit_from, unit_to)
 
     seconds per 1 unit_from  /  seconds per 1 unit_to
     """
-    sf = get_time_unit_conversions(time_unit_from)["conv"]["seconds"]  # sec / unit_from
-    st = get_time_unit_conversions(time_unit_to)["conv"]["seconds"]    # sec / unit_to
+    sf = get_time_unit_conversions(input_time_unit)["conv"]["seconds"]  # sec / unit_from
+    st = get_time_unit_conversions(output_time_unit)["conv"]["seconds"]    # sec / unit_to
     return sf / st
 
-def tconvert(value: float, time_unit_from: str, time_unit_to: str) -> float:
-    return value * time_factor(time_unit_from, time_unit_to)
+def tconvert(value: float, input_time_unit: str, output_time_unit: str) -> float:
+    return value * time_factor(input_time_unit, output_time_unit)
 
 def seconds_per(unit: str) -> float:
     """Return seconds in one <unit> (unit aliases supported)."""

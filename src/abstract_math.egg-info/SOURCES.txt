@@ -28,3 +28,4 @@ src/abstract_math/solar_math/src/utils/geometry_utils.py
 src/abstract_math/solar_math/src/utils/trajectory_components.py
 src/abstract_math/solar_math/src/utils/velocity_utils.py
 tests/test.py
+tests/test_radial.py
