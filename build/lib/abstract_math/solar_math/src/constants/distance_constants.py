@@ -130,37 +130,37 @@ def normalize_distance_unit(unit: str) -> str:
 def get_distance_unit_conversions(dist_unit: str) -> Dict[str, Dict[str, float]]:
     return DISTANCE_CONVERSIONS[normalize_distance_unit(dist_unit)]
 
-def _factor(input_dist_units: str, output_dist_units: str) -> float:
+def _factor(input_dist_unit: str, output_dist_unit: str) -> float:
     """Multiplicative factor s.t. value_in_to = value_in_from * factor."""
-    uf = get_distance_unit_conversions(input_dist_units)["conv"]["meters"]  # meters per 1 from-unit
-    ut = get_distance_unit_conversions(output_dist_units)["conv"]["meters"]    # meters per 1 to-unit
+    uf = get_distance_unit_conversions(input_dist_unit)["conv"]["meters"]  # meters per 1 from-unit
+    ut = get_distance_unit_conversions(output_dist_unit)["conv"]["meters"]    # meters per 1 to-unit
     return div(uf, ut)
 
-def dconvert(value: float, input_dist_units: str, output_dist_units: str) -> float:
-    return  mul(value, _factor(input_dist_units, output_dist_units))
+def dconvert(value: float, input_dist_unit: str, output_dist_unit: str) -> float:
+    return  mul(value, _factor(input_dist_unit, output_dist_unit))
 
-def dconvert_dict(value: float, input_dist_units: str, output_dist_units: str) -> float:
-    return {"value":dconvert(value=value, input_dist_units=input_dist_units, output_dist_units=output_dist_units),"dist_units":output_dist_units}
+def dconvert_dict(value: float, input_dist_unit: str, output_dist_unit: str) -> float:
+    return {"value":dconvert(value=value, input_dist_unit=input_dist_unit, output_dist_unit=output_dist_unit),"dist_units":output_dist_unit}
 
 def get_normalized_distance(
     distance: Optional[float] = None,
-    input_dist_units: str = DEFAULT_DIST_UNIT
+    input_dist_unit: str = DEFAULT_DIST_UNIT
     ):
     distance = target_alt_m = distance or 0
     if distance is not None:
         target_alt_m = dconvert(value=distance,
-                input_dist_units=input_dist_units,
-                output_dist_units=DEFAULT_DIST_UNIT
+                input_dist_unit=input_dist_unit,
+                output_dist_unit=DEFAULT_DIST_UNIT
                 )
     return target_alt_m
 def get_target_distance(
     distance: Optional[float] = None,
-    input_dist_units: str = DEFAULT_DIST_UNIT,
-    output_dist_units: str = DEFAULT_DIST_UNIT,
+    input_dist_unit: str = DEFAULT_DIST_UNIT,
+    output_dist_unit: str = DEFAULT_DIST_UNIT,
     ):
     distance = target_distance = distance or 0
     if distance is not None:
         target_distance = dconvert(value=distance,
-                              input_dist_units=input_dist_units,
-                              output_dist_units=output_dist_units)
+                              input_dist_unit=input_dist_unit,
+                              output_dist_unit=output_dist_unit)
     return target_distance

@@ -15,11 +15,11 @@ from .velocity_utils import normalized_velocity_conversion,get_velocity_conversi
 def get_r_m(
     planet: str = DEFAULT_PLANET,
     start_altitude: float = DEFAULT_START_ALTITUDE,
-    input_dist_units: str = DEFAULT_DIST_UNIT,
+    input_dist_unit: str = DEFAULT_DIST_UNIT,
     as_radius:bool = DEFAULT_AS_RADIUS
     ):
     R,mu = get_R_mu(planet=planet)
-    r_m = dconvert(start_altitude, input_dist_units, DEFAULT_DIST_UNIT)
+    r_m = dconvert(start_altitude, input_dist_unit, DEFAULT_DIST_UNIT)
     # Determine radius from center in meters
     if not as_radius:
         r_m = add(R, r_m)
@@ -29,46 +29,46 @@ def get_r_m(
 def get_vesc_mps(
     planet: str = DEFAULT_PLANET,
     start_altitude: float = DEFAULT_START_ALTITUDE,
-    input_dist_units: str = DEFAULT_DIST_UNIT,
+    input_dist_unit: str = DEFAULT_DIST_UNIT,
     as_radius:bool = DEFAULT_AS_RADIUS
     ):
     R,mu = get_R_mu(planet=planet)
-    r_m = get_r_m(planet=planet,start_altitude=start_altitude,input_dist_units=input_dist_units,as_radius=as_radius)
+    r_m = get_r_m(planet=planet,start_altitude=start_altitude,input_dist_unit=input_dist_unit,as_radius=as_radius)
     vesc_mps = math.sqrt(mul(2.0, div(mu, r_m)))
     return vesc_mps
 
 def get_normalized_starting_velocity(
     start_altitude: float = None, 
     starting_velocity: float = None, 
-    input_dist_units: str = DEFAULT_DIST_UNIT,    # distance part of starting_velocity & start_distance
-    input_time_units: str = DEFAULT_TIME_UNIT,         # time part of starting_velocity
-    output_dist_units: str = DEFAULT_DIST_UNIT,
-    output_time_units: str = DEFAULT_TIME_UNIT,
+    input_dist_unit: str = DEFAULT_DIST_UNIT,    # distance part of starting_velocity & start_distance
+    input_time_unit: str = DEFAULT_TIME_UNIT,         # time part of starting_velocity
+    output_dist_unit: str = DEFAULT_DIST_UNIT,
+    output_time_unit: str = DEFAULT_TIME_UNIT,
     planet: str = DEFAULT_PLANET
     ):
     start_altitude = start_altitude or 0
     if starting_velocity == None:
         starting_velocity = escape_velocity_at(planet=planet,
                                                start_altitude=start_altitude,
-                                               input_time_units=input_time_units,
-                                               input_dist_units=input_dist_units,
-                                               output_time_units=output_time_units,
-                                               output_dist_units=output_dist_units
+                                               input_time_unit=input_time_unit,
+                                               input_dist_unit=input_dist_unit,
+                                               output_time_unit=output_time_unit,
+                                               output_dist_unit=output_dist_unit
                                                )
     return normalized_velocity_conversion(
         velocity=starting_velocity,
-        input_time_units=input_time_units,
-        input_dist_units=input_dist_units
+        input_time_unit=input_time_unit,
+        input_dist_unit=input_dist_unit
         )
 
 def escape_velocity_at(
     planet: str = DEFAULT_PLANET,
     start_altitude: float = DEFAULT_START_ALTITUDE,
     *,
-    input_time_units: str = DEFAULT_TIME_UNIT,     # how to interpret `distance`
-    input_dist_units: str = DEFAULT_DIST_UNIT,     # how to interpret `distance`
-    output_dist_units: str = DEFAULT_DIST_UNIT,    # distance unit for the *speed*
-    output_time_units: str = DEFAULT_TIME_UNIT,          # time unit for the *speed*
+    input_time_unit: str = DEFAULT_TIME_UNIT,     # how to interpret `distance`
+    input_dist_unit: str = DEFAULT_DIST_UNIT,     # how to interpret `distance`
+    output_dist_unit: str = DEFAULT_DIST_UNIT,    # distance unit for the *speed*
+    output_time_unit: str = DEFAULT_TIME_UNIT,          # time unit for the *speed*
     as_radius: bool = DEFAULT_AS_RADIUS          # False => `distance` is altitude above surface; True => radius from center
 ) -> dict:
     """
@@ -99,21 +99,21 @@ def escape_velocity_at(
 
     r_m = get_r_m(planet=planet,
                   start_altitude=start_altitude,
-                  input_dist_units=input_dist_units,
+                  input_dist_unit=input_dist_unit,
                   as_radius=as_radius
                   )
-    r_conv = dconvert(r_m, input_dist_units, output_dist_units)
+    r_conv = dconvert(r_m, input_dist_unit, output_dist_unit)
     v_escape_mps = get_vesc_mps(
         planet=planet,
         start_altitude=start_altitude,
-        input_dist_units=input_dist_units,
+        input_dist_unit=input_dist_unit,
         as_radius=as_radius
         )
     v_escape = get_velocity_conversion(velocity=v_escape_mps,
-                                    input_time_units= DEFAULT_TIME_UNIT,
-                                    input_dist_units= DEFAULT_DIST_UNIT,
-                                    output_dist_units= output_dist_units,
-                                    output_time_units= output_time_units)
+                                    input_time_unit= DEFAULT_TIME_UNIT,
+                                    input_dist_unit= DEFAULT_DIST_UNIT,
+                                    output_dist_unit= output_dist_unit,
+                                    output_time_unit= output_time_unit)
     # Convert speed to <output_units>/<output_time>
 
     # Also return the radius in output_units for convenience
@@ -121,27 +121,27 @@ def escape_velocity_at(
     
     g_o_mps = g_at_radius(mu, r_m)
     g_o_conv = get_velocity_conversion(velocity=g_o_mps,
-                                    input_time_units= DEFAULT_TIME_UNIT,
-                                    input_dist_units= DEFAULT_DIST_UNIT,
-                                    output_dist_units= output_dist_units,
-                                    output_time_units= output_time_units)
+                                    input_time_unit= DEFAULT_TIME_UNIT,
+                                    input_dist_unit= DEFAULT_DIST_UNIT,
+                                    output_dist_unit= output_dist_unit,
+                                    output_time_unit= output_time_unit)
    
-    smallest_time_unit = get_smallest_unit_string(output_time_units)
-    smallest_distance_unit = get_smallest_unit_string(output_dist_units)
+    smallest_time_unit = get_smallest_unit_string(output_time_unit)
+    smallest_distance_unit = get_smallest_unit_string(output_dist_unit)
     return {
         "ok": True,
         "planet": planet,
         
         "v_escape": round(v_escape,6),
         "v_escape_mps": round(v_escape_mps,6),
-        "units": {"distance": output_dist_units, "time": output_time_units},
+        "units": {"distance": output_dist_unit, "time": output_time_unit},
         "r_m":round(r_m,6),
         "r": round(r_conv,6),
         "g_o_mps":round(g_o_mps,6),
         "g_o":round(g_o_conv,6),
         
 
-        "units": {"distance": output_dist_units, "time": output_time_units},
+        "units": {"distance": output_dist_unit, "time": output_time_unit},
         "radius_from_center": f"{round(r_conv,2)} {smallest_distance_unit}",
         "v_escape": f"{round(v_escape,2)} {smallest_distance_unit}/{smallest_time_unit}^2",
         "g_out": f"{round(g_o_conv,2)} {smallest_distance_unit}/{smallest_time_unit}^2",
@@ -153,10 +153,10 @@ def distance_from_velocity_time_gravity(
     starting_velocity: float = None,
     ending_velocity: float = None,
     time_to_target: float = None,
-    input_dist_units: str = DEFAULT_DIST_UNIT,
-    input_time_units: str = DEFAULT_TIME_UNIT,
-    output_dist_units: str = DEFAULT_DIST_UNIT,
-    output_time_units: str = DEFAULT_TIME_UNIT,
+    input_dist_unit: str = DEFAULT_DIST_UNIT,
+    input_time_unit: str = DEFAULT_TIME_UNIT,
+    output_dist_unit: str = DEFAULT_DIST_UNIT,
+    output_time_unit: str = DEFAULT_TIME_UNIT,
     time_input_unit: str = DEFAULT_TIME_UNIT,
     planet: str = DEFAULT_PLANET,
     as_radius: bool = DEFAULT_AS_RADIUS,
@@ -193,7 +193,7 @@ def distance_from_velocity_time_gravity(
     r0_m = get_r_m(
         planet=planet,
         start_altitude=start_altitude,
-        input_dist_units=input_dist_units,
+        input_dist_unit=input_dist_unit,
         as_radius=as_radius,
     )
 
@@ -203,20 +203,20 @@ def distance_from_velocity_time_gravity(
     v0_mps = get_normalized_starting_velocity(
         start_altitude=start_altitude,
         starting_velocity=starting_velocity,
-        input_dist_units=input_dist_units,
-        input_time_units=input_time_units,
-        output_dist_units=DEFAULT_DIST_UNIT,
-        output_time_units=DEFAULT_TIME_UNIT,
+        input_dist_unit=input_dist_unit,
+        input_time_unit=input_time_unit,
+        output_dist_unit=DEFAULT_DIST_UNIT,
+        output_time_unit=DEFAULT_TIME_UNIT,
         planet=planet,
     )
 
     v1_target_mps = get_normalized_starting_velocity(
         start_altitude=start_altitude,
         starting_velocity=ending_velocity,
-        input_dist_units=input_dist_units,
-        input_time_units=input_time_units,
-        output_dist_units=DEFAULT_DIST_UNIT,
-        output_time_units=DEFAULT_TIME_UNIT,
+        input_dist_unit=input_dist_unit,
+        input_time_unit=input_time_unit,
+        output_dist_unit=DEFAULT_DIST_UNIT,
+        output_time_unit=DEFAULT_TIME_UNIT,
         planet=planet,
     )
 
@@ -297,7 +297,7 @@ def distance_from_velocity_time_gravity(
         "distance_traveled": dconvert(
             distance_m,
             DEFAULT_DIST_UNIT,
-            output_dist_units,
+            output_dist_unit,
         ),
 
         "starting_velocity_mps": v0_mps,
@@ -322,16 +322,16 @@ def distance_from_velocity_time_gravity(
         "average_velocity_mps": avg_mps,
         "average_velocity": get_velocity_conversion(
             velocity=avg_mps,
-            input_dist_units=DEFAULT_DIST_UNIT,
-            input_time_units=DEFAULT_TIME_UNIT,
-            output_dist_units=output_dist_units,
-            output_time_units=output_time_units,
+            input_dist_unit=DEFAULT_DIST_UNIT,
+            input_time_unit=DEFAULT_TIME_UNIT,
+            output_dist_unit=output_dist_unit,
+            output_time_unit=output_time_unit,
         ),
 
         "units": {
-            "distance": output_dist_units,
-            "input_velocity": f"{input_dist_units}/{input_time_units}",
-            "average_velocity": f"{output_dist_units}/{output_time_units}",
+            "distance": output_dist_unit,
+            "input_velocity": f"{input_dist_unit}/{input_time_unit}",
+            "average_velocity": f"{output_dist_unit}/{output_time_unit}",
             "time_input": time_input_unit,
         },
     }
